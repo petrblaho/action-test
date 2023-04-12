@@ -28,3 +28,6 @@ jobs:
         run: poetry run ./scripts/create-manifest.py
       - name: Update PR
         uses: gr2m/create-or-update-pull-request-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
