@@ -3,30 +3,35 @@ on: pull_request
 
 permissions:
   pull-requests: write
-
+  
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: ${{ github.actor == 'dependabot[bot]' }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0 # to pick up branches
-          ref: ${{github.event.pull_request.head.ref}}
-          repository: ${{github.event.pull_request.head.repo.full_name}}
-      - name: Install poetry
-        run: pipx install poetry~=1.4.0
-      - name: Set up Python 3.9
-        uses: actions/setup-python@v3
-        with:
-          python-version: '3.9'
-          cache: 'poetry'
-      - name: Install dependencies
-        run: poetry install --with dev --verbose
-      - name: Generate manifest
-        run: poetry run ./scripts/create-manifest.py
-      - name: Update PR
-        uses: peter-evans/create-pull-request@v5
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref }}
+        fetch-depth: 0
+    - name: Install poetry
+      run: pipx install poetry~=1.4.0
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.9'
+        cache: 'poetry'
+    - name: Install dependencies
+      run: poetry install --with dev --verbose
+    - name: Generate manifest
+      run: poetry run ./scripts/create-manifest.py
+    - name: Commit files
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add *-manifest
+        git commit -a -m "Add changes"
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        branch: ${{ github.head_ref }}
 
 
