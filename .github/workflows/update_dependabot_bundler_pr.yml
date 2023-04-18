@@ -48,7 +48,7 @@ jobs:
     - name: Checkout the branch that triggered 'Build Dependabot Manifest PR'
       uses: actions/checkout@v3
       with:
-        token: ${{ secrets.GH_PAT }}
+        token: ${{ secrets.GH_PAT }} # uses Personal Access Token so the push triggers other workflows
         ref: ${{ env.BRANCH_REF }}
     - name: Configure git
       run: |
