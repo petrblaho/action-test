@@ -12,8 +12,7 @@ jobs:
   check-manifest:
     name: Check manifest
     runs-on: ubuntu-latest
-    if: >
-      ${{ github.actor != 'dependabot[bot]' }}
+    if: github.actor != 'dependabot[bot]'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
