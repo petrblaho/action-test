@@ -46,7 +46,6 @@ jobs:
         if [[ $(git status | grep 'manifest') ]]; then
           git add *-manifest
           git commit -m "[dependabot skip] Update manifest"
-          git format-patch -n HEAD^ --binary --stdout > ./dependabot-pr/changes.patch
         else
           echo "Manifest as not changed"
         fi
