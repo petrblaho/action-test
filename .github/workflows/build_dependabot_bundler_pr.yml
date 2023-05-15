@@ -50,11 +50,6 @@ jobs:
         else
           echo "Manifest as not changed"
         fi
-    - name: Push changes back to dependabot/pip branch
+    - name: Push changes
       run: |
-        if [[ "$BRANCH_REF" =~ ^dependabot/pip* ]]; then
-          git push origin $BRANCH_REF
-        else
-          echo "Branch ref doesn't look like a dependabot/pip branch: $BRANCH_REF"
-          exit 1
-        fi
+          git push origin
