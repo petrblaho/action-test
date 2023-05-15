@@ -15,15 +15,10 @@ jobs:
     if: >
       ${{ github.actor != 'dependabot[bot]' }}
     steps:
-      - name: Wait for other checks to succeed
-        uses: lewagon/wait-on-check-action@v1.3.1
-        with:
-          ref: ${{ github.ref }}
-          running-workflow-name: 'Check manifest'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 10
       - name: Checkout repository
         uses: actions/checkout@v3
+      - name: Git log
+        run: git log
       - name: Install poetry
         run: pipx install poetry~=1.4.0
       - name: Set up Python 3.9
