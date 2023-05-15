@@ -14,7 +14,7 @@ on:
       - "dependabot/pip**"
 
 permissions:
-  pull-requests: write
+  contents: write
 
 jobs:
   build:
