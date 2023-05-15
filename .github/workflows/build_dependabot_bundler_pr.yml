@@ -21,6 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.GH_PAT }} # uses Personal Access Token so the push triggers other workflows
     - name: Install poetry
       run: pipx install poetry~=1.4.0
     - name: Set up Python 3.9
