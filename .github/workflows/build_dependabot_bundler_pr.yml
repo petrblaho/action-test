@@ -13,6 +13,9 @@ on:
     branches:
       - "dependabot/pip**"
 
+permissions:
+  pull-requests: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -47,10 +50,11 @@ jobs:
         else
           echo "Manifest as not changed"
         fi
-    # NOTE: Use actions/upload-artifact instead of actions/cache as the
-    # workflow triggered on the default branch doesn't have access to caches
-    # created on feature branches
-    - uses: actions/upload-artifact@v2
-      with:
-        name: dependabot-pr
-        path: dependabot-pr/
+    - name: Push changes back to dependabot/pip branch
+      run: |
+        if [[ "$BRANCH_REF" =~ ^dependabot/pip* ]]; then
+          git push origin $BRANCH_REF
+        else
+          echo "Branch ref doesn't look like a dependabot/pip branch: $BRANCH_REF"
+          exit 1
+        fi
